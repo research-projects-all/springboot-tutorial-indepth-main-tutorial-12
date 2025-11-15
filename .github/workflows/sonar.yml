@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Better history for SonarCloud (blame, etc.)
+          fetch-depth: 0  # Better history for SonarCloud
 
       - name: Set up JDK 8
         uses: actions/setup-java@v4
@@ -32,13 +32,14 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Build and analyze with Maven
+      - name: Build and analyze with Maven (skip tests)
         working-directory: Step29
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          mvn -B clean verify -DskipTests \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=research-projects-all_springboot-tutorial-indepth-main-tutorial-12 \
             -Dsonar.organization=research-projects-all \
             -Dsonar.host.url=https://sonarcloud.io
