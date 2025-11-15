@@ -1,4 +1,5 @@
 name: SonarCloud
+
 on:
   push:
     branches:
@@ -7,39 +8,35 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
-    name: Build and analyze
+  sonar:
+    name: Build and analyze with SonarCloud
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # better history for Sonar
+          fetch-depth: 0  # Better history for SonarCloud (blame, etc.)
 
-      - name: Set up JDK 17
+      - name: Set up JDK 8
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'zulu'
+          distribution: 'temurin'
+          java-version: '8'
+          cache: 'maven'
 
-      - name: Cache Sonar packages
+      - name: Cache SonarCloud packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      - name: Build and analyze
+      - name: Build and analyze with Maven
         working-directory: Step29
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=research-projects-all_springboot-tutorial-indepth-main-tutorial-12 \
