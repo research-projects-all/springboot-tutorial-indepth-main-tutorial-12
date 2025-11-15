@@ -32,13 +32,13 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Build and analyze with Maven (skip tests)
+      - name: Build (compile only) and analyze with SonarCloud
         working-directory: Step29
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mvn -B clean verify -DskipTests \
+          mvn -B -DskipTests test \
             org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=research-projects-all_springboot-tutorial-indepth-main-tutorial-12 \
             -Dsonar.organization=research-projects-all \
