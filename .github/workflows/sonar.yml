@@ -18,11 +18,11 @@ jobs:
         with:
           fetch-depth: 0  # Better history for SonarCloud
 
-      - name: Set up JDK 8
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
           cache: 'maven'
 
       - name: Cache SonarCloud packages
@@ -40,6 +40,7 @@ jobs:
         run: |
           mvn -B -DskipTests test \
             org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dspring-boot.repackage.skip=true \
             -Dsonar.projectKey=research-projects-all_springboot-tutorial-indepth-main-tutorial-12 \
             -Dsonar.organization=research-projects-all \
             -Dsonar.host.url=https://sonarcloud.io
