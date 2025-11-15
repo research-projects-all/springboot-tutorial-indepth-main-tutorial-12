@@ -4,3 +4,6 @@ The tutorial is a continuous flow with different git repositories for each secti
 Spring in Depth 	Spring - Level 2 	Project Folder on GitHub
 Unit Testing with Spring Framework 	Spring - Level 3 	Project Folder on GitHub
 there two sections in the tutorial https://www.springboottutorial.com/spring-master-class
+
+
+needed to add more dependencies to the pom files to fix errors in sonarcloud building also did not consider testing and repackaging using maven
