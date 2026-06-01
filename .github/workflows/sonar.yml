@@ -43,6 +43,7 @@ jobs:
         run: >
           mvn -B clean verify
           org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -DskipTests
+          -Dmaven.test.skip=true
+          -Dspring-boot.repackage.skip=true
           -Dsonar.organization=research-projects-all
           -Dsonar.projectKey=research-projects-all_springboot-tutorial-indepth-main-tutorial-12
